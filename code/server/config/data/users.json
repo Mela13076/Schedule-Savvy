@@ -1,0 +1,12 @@
+[
+    {
+        "first_name": "Test_FName",
+        "last_name": "Test_SName",
+        "email": "test@email.com"
+    },
+    {
+        "first_name": "John",
+        "last_name": "Doe",
+        "email": "john.doe@gmail.com"
+    }
+]
