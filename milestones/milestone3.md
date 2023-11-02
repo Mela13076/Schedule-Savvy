@@ -8,9 +8,9 @@ This unit, be sure to complete all tasks listed below. To complete a task, place
 
 You will need to reference the GitHub Project Management guide in the course portal for more information about how to complete each of these steps.
 
-- [ ] Create a project board associated with this repo
-- [ ] In this repo, create GitHub milestones for each of the remaining milestones in this unit
-- [ ] In this repo, create issues for each feature on your feature list
+- [x] Create a project board associated with this repo
+- [x] In this repo, create GitHub milestones for each of the remaining milestones in this unit
+- [x] In this repo, create issues for each feature on your feature list
   - [ ] Make sure to add the issues to your project board and to the appropriate milestones
 - [ ] Update the status of issues in your project board as you complete them
 - [ ] In `readme.md`, check off the features you have completed in this unit by adding a ✅ emoji in front of their title
