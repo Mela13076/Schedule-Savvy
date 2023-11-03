@@ -26,6 +26,14 @@ Backend:
 
 ## Features
 
+### Frontend Routes
+
+<image src='./assets/client-walkthrough.gif' width='500' height='300'>
+
+### Backend Routes
+
+<image src='./assets/server-routes-ss.png'>
+
 ### Create tasks
 
 The user can specify the title, due date and time, category, description, and progress status of the task.As well as adding notes and comments to task. 
