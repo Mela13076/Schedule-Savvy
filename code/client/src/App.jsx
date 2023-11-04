@@ -9,6 +9,8 @@ import Calendar from './pages/calendar';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Nav from './componets/nav';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 
 
@@ -43,7 +45,7 @@ const App = () => {
       element:<Home data={tasks}/>
     },
     {
-      path:"/task/new",
+      path:"/new-task",
       element: <CreateTask />
     },
     {
@@ -76,7 +78,10 @@ const App = () => {
       <div className="header">
         <Nav />
       </div>
+      <div className="content">
         {element}
+      </div>
+        
     </div>
 
   );
