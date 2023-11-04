@@ -26,21 +26,21 @@ Backend:
 
 ## Features
 
-### Frontend Routes
+### ✅ Frontend Routes
 
 <image src='./assets/client-walkthrough.gif' width='500' height='300'>
 
-### Backend Routes
+### ✅ Backend Routes
 
 <image src='./assets/server-routes-ss.png'>
 
-### Navigation
+### ✅ Navigation
 
 The user can easily navigate through the site with a responsive navigation bar.
 
 <image src='./assets/navigation.gif'>
 
-### Log In & Sign Up
+### ✅ Log In & Sign Up
 
 Users can Sign up and Log in to the app for a personalized experience. 
 
