@@ -34,6 +34,18 @@ Backend:
 
 <image src='./assets/server-routes-ss.png'>
 
+### Navigation
+
+The user can easily navigate through the site with a responsive navigation bar.
+
+<image src='./assets/server-routes-ss.png'>
+
+### Log In & Sign Up
+
+Users can Sign up and Log in to the app for a personalized experience. 
+
+<image src='./assets/server-routes-ss.png'>
+
 ### Create tasks
 
 The user can specify the title, due date and time, category, description, and progress status of the task.As well as adding notes and comments to task. 
