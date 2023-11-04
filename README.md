@@ -38,13 +38,13 @@ Backend:
 
 The user can easily navigate through the site with a responsive navigation bar.
 
-<image src='./assets/navigation.gif'>
+<image src='./assets/navigation.gif' width='500' height='auto'>
 
 ### ✅ Log In & Sign Up
 
 Users can Sign up and Log in to the app for a personalized experience. 
 
-<image src='./assets/login.gif'>
+<image src='./assets/login.gif' width='500' height='auto'>
 
 ### Create tasks
 
