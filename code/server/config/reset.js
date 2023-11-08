@@ -27,9 +27,6 @@ const createTasksTable = async () => {
 
     DELETE FROM tasks;
   `
-    // const createTasksTableQuery = `
-    //   DROP TABLE IF EXISTS tasks;
-    // `
 
   try {
     const res = await pool.query(createTasksTableQuery)

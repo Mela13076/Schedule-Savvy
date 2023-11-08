@@ -14,8 +14,13 @@ const getTaskById = async (req, res) => {
       const taskId = req.params.taskId
       const selectQuery = `SELECT * FROM tasks WHERE task_id = ${taskId}`
       const results = await pool.query(selectQuery)
-  
-      res.status(200).json(results.rows[0])
+      
+      // Gracefully handle non-existent task ID
+      if (results.rows[0])
+        res.status(200).json(results.rows[0])
+      else
+        res.status(404).json( { error: `Task with ID ${taskId} not found` } )
+
     } catch (error) {
       res.status(409).json( { error: error.message } )
     }
@@ -41,7 +46,7 @@ const updateTask = async (req, res) => {
       const id = parseInt(req.params.id)
       const { title, description, due_date, due_time, priority_level, completed, user_id } = req.body 
       const results = await pool.query(`
-        UPDATE tasks SET title = $1, description = $2, due_date = $3, due_time = $4, piority_level = $5, completed = $6, user_id = $7 WHERE task_id = $8`,
+        UPDATE tasks SET title = $1, description = $2, due_date = $3, due_time = $4, priority_level = $5, completed = $6, user_id = $7 WHERE task_id = $8`,
         [title, description, due_date, due_time, priority_level, completed, user_id, id]
       )
       res.status(200).json(results.rows[0])
