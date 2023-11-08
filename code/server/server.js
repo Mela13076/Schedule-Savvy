@@ -1,6 +1,10 @@
 import express from 'express'
 import cors from 'cors'
 import taskRoutes from './routes/tasks.js'
+import userRoutes from './routes/users.js'
+import subtaskRoutes from './routes/subtasks.js'
+import categoryRoutes from './routes/categories.js'
+import categoryOfRoutes from './routes/categoryof.js'
 
 const app = express()
 
@@ -12,6 +16,10 @@ app.get('/', (req, res) => {
 })
 
 app.use('/tasks', taskRoutes)
+app.use('/users', userRoutes)
+app.use('/subtasks', subtaskRoutes)
+app.use('/categories', categoryRoutes)
+app.use('/categoryof', categoryOfRoutes)
 
 const PORT = process.env.PORT || 3001
 
