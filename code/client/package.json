@@ -4,10 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --force",
-    "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "dev": "react-scripts start",
+    "start": "serve build -s -n -L -p $PORT",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "dependencies": {
     "bootstrap": "^5.3.2",
@@ -18,7 +19,8 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.18.0",
     "react-select": "^5.8.0",
-    "react-time-picker": "^6.5.2"
+    "react-time-picker": "^6.5.2",
+    "serve": "^14.2.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
