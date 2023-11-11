@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import CreateTask from './pages/CreateTask';
 import ViewTask from './pages/ViewTask';
 import EditTask from './pages/EditTask';
-import Calendar from './pages/calendar';
+import Calendar from './pages/Calendar';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Nav from './componets/nav';
