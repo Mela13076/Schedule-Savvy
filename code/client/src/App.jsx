@@ -15,7 +15,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const App = () => {
-  const API_URL = 'http://localhost:3001'
+  const API_URL = process.env.NODE_ENV === 'production' ? 'https://server-production-a3bc.up.railway.app' : 'http://localhost:3001'
+
   const [tasks, setTasks] = useState([]);
   const [users, setUsers] = useState([]);
 
