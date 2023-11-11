@@ -50,13 +50,13 @@ Users can Sign up and Log in to the app for a personalized experience.
 
 The user can specify the title, due date and time, category, description, and progress status of the task.As well as adding notes and comments to task. 
 
-[gif goes here]
+<image src='./assets/NewTask.gif' width='500' height='auto'>
 
 ### Display tasks
 
 Users can view already-created tasks as cards in a specified order or in a calendar view (in month, week, and day view).
 
-[gif goes here]
+<image src='./assets/displayTask.gif' width='500' height='auto'>
 
 ### Edit tasks & Delete tasks
 

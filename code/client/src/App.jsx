@@ -15,7 +15,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const App = () => {
-
+  const API_URL = 'http://localhost:3001'
   const [tasks, setTasks] = useState([]);
   const [users, setUsers] = useState([]);
 
@@ -25,17 +25,19 @@ const App = () => {
       const data = await response.json()
       setTasks(data)
     }
-    fetchTasks()
-  }, []);
 
-  useEffect(() => {
     const fetchUsers = async () => {
       const response = await fetch('http://localhost:3001/users')
       const data = await response.json()
       setUsers(data)
-    }
+    } 
+
     fetchUsers()
+    fetchTasks()
+    
   }, []);
+  console.log(tasks)
+  console.log(users)
 
 
   // Sets up routes
@@ -46,7 +48,7 @@ const App = () => {
     },
     {
       path:"/new-task",
-      element: <CreateTask />
+      element: <CreateTask api_url={API_URL}/>
     },
     {
       path:"/edit/:id",
