@@ -26,37 +26,37 @@ Backend:
 
 ## Features
 
-### Frontend Routes
+### ✅ Frontend Routes
 
 <image src='./assets/client-walkthrough.gif' width='500' height='300'>
 
-### Backend Routes
+### ✅ Backend Routes
 
 <image src='./assets/server-routes-ss.png'>
 
-### Navigation
+### ✅ Navigation
 
 The user can easily navigate through the site with a responsive navigation bar.
 
-<image src='./assets/navigation.gif'>
+<image src='./assets/navigation.gif' width='500' height='auto'>
 
-### Log In & Sign Up
+### ✅ Log In & Sign Up
 
 Users can Sign up and Log in to the app for a personalized experience. 
 
-<image src='./assets/login.gif'>
+<image src='./assets/login.gif' width='500' height='auto'>
 
 ### Create tasks
 
 The user can specify the title, due date and time, category, description, and progress status of the task.As well as adding notes and comments to task. 
 
-[gif goes here]
+<image src='./assets/NewTask.gif' width='500' height='auto'>
 
 ### Display tasks
 
 Users can view already-created tasks as cards in a specified order or in a calendar view (in month, week, and day view).
 
-[gif goes here]
+<image src='./assets/displayTask.gif' width='500' height='auto'>
 
 ### Edit tasks & Delete tasks
 

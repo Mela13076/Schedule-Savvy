@@ -1,13 +1,68 @@
+// import { useState, useEffect } from "react";
+// import Spinner from 'react-bootstrap/Spinner';
 
-
-function Home() {
-
-
-    return (
-      <div className="Home">
-        Home Page
-      </div>
-    )
-  }
+// function Home(props) {
   
-  export default Home
+//   const [tasks, setTasks] = useState([]);
+
+//   useEffect(() => {
+//     setTasks(props.data);
+// }, [props]);
+
+//     return (
+//       <div className="Home">
+//          {
+//             tasks && tasks.length > 0 ?
+//             tasks.map((task,index) => 
+//                 <div className="task" key={index}>
+//                   <h1>{task.title}</h1>
+//                 </div>
+//             ) : 
+//             <Spinner animation="border" role="status">
+//               <span className="visually-hidden">Loading...</span>
+//             </Spinner>
+//           }
+//       </div>
+//     )
+//   }
+  
+//   export default Home
+
+
+import React, { useState, useEffect } from "react";
+import Spinner from "react-bootstrap/Spinner";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
+
+function Home(props) {
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    setTasks(props.data);
+  }, [props]);
+
+  return (
+    <div className="Home">
+      {tasks && tasks.length > 0 ? (
+        tasks.map((task, index) => (
+          <Card key={index} className="mb-3">
+            <Card.Body>
+              <Card.Title>{task.title}</Card.Title>
+              <Card.Text>{task.description}</Card.Text>
+              <Link to={`/task/${task.id}`}>
+                <Button variant="primary">Details</Button>
+              </Link>
+            </Card.Body>
+          </Card>
+        ))
+      ) : (
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      )}
+    </div>
+  );
+}
+
+export default Home;

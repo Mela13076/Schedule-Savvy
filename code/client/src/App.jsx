@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import CreateTask from './pages/CreateTask';
 import ViewTask from './pages/ViewTask';
 import EditTask from './pages/EditTask';
-import Calendar from './pages/calendar';
+import Calendar from './pages/Calendar';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Nav from './componets/nav';
@@ -15,6 +15,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const App = () => {
+  const API_URL = process.env.NODE_ENV === 'production' ? 'https://server-production-a3bc.up.railway.app' : 'http://localhost:3001'
 
   const [tasks, setTasks] = useState([]);
   const [users, setUsers] = useState([]);
@@ -25,17 +26,19 @@ const App = () => {
       const data = await response.json()
       setTasks(data)
     }
-    fetchTasks()
-  }, []);
 
-  useEffect(() => {
     const fetchUsers = async () => {
       const response = await fetch('http://localhost:3001/users')
       const data = await response.json()
       setUsers(data)
-    }
+    } 
+
     fetchUsers()
+    fetchTasks()
+    
   }, []);
+  console.log(tasks)
+  console.log(users)
 
 
   // Sets up routes
@@ -46,7 +49,7 @@ const App = () => {
     },
     {
       path:"/new-task",
-      element: <CreateTask />
+      element: <CreateTask api_url={API_URL}/>
     },
     {
       path:"/edit/:id",
