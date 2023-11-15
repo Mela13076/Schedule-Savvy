@@ -8,7 +8,7 @@ import categoryOfRoutes from './routes/categoryof.js'
 
 const app = express()
 
-const CLIENT_URL = process.env.NODE_ENV === 'production' ? 'https://client-production-564a.up.railway.app' : 'http://localhost:3000'
+const CLIENT_URL = process.env.NODE_ENV === 'production' ? 'https://client-production-564a.up.railway.app' : 'http://localhost:5173'
 
 app.use(express.json())
 app.use(cors({
