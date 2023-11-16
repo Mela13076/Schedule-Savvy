@@ -1,34 +1,3 @@
-// import { useState, useEffect } from "react";
-// import Spinner from 'react-bootstrap/Spinner';
-
-// function Home(props) {
-  
-//   const [tasks, setTasks] = useState([]);
-
-//   useEffect(() => {
-//     setTasks(props.data);
-// }, [props]);
-
-//     return (
-//       <div className="Home">
-//          {
-//             tasks && tasks.length > 0 ?
-//             tasks.map((task,index) => 
-//                 <div className="task" key={index}>
-//                   <h1>{task.title}</h1>
-//                 </div>
-//             ) : 
-//             <Spinner animation="border" role="status">
-//               <span className="visually-hidden">Loading...</span>
-//             </Spinner>
-//           }
-//       </div>
-//     )
-//   }
-  
-//   export default Home
-
-
 import React, { useState, useEffect } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import Card from "react-bootstrap/Card";
@@ -45,9 +14,11 @@ function Home(props) {
   });
 
   useEffect(() => { 
-    setTasks(props.data);
-  }, [order]);
-
+    if (props.data.length > 0) {
+      setTasks(props.data);
+    }
+  }, [props.data]);
+  
   const sortTasks = (property) => {
     let sortedTasks = [];
     switch (property) {
