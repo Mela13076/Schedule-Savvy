@@ -14,9 +14,11 @@ function Home(props) {
   });
 
   useEffect(() => { 
-    setTasks(props.data);
-  }, [order]);
-
+    if (props.data.length > 0) {
+      setTasks(props.data);
+    }
+  }, [props.data]);
+  
   const sortTasks = (property) => {
     let sortedTasks = [];
     switch (property) {
