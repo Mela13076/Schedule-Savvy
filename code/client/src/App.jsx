@@ -48,7 +48,7 @@ const App = () => {
     
   }, []);
   // console.log(tasks)
-  console.log(categories)
+  // console.log(categories)
 
 
   // Sets up routes
