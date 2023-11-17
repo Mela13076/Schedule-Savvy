@@ -15,7 +15,15 @@ function CreateTask({ api_url, categories }) {
   const [selectedTime, setSelectedTime] = useState('');
   const [selectedCategories, setSelectedCategories] = useState([]);
 
+  // const [category, setCategory] = useState({
+  //   title: '',
+  //   color_hex: 'ffffff'
+  // })
 
+  // const [categoryof, setCategoryOf] = useState({
+  //   category_id: 0,
+  //   task_id: 0
+  // })
 
   const [task, setTask] = useState({
     id: 0,
@@ -48,22 +56,130 @@ function CreateTask({ api_url, categories }) {
   const handleCategoryChange = (selectedOptions) => {
     setSelectedCategories(selectedOptions);
     // Update the task object with the selected categories
-    setTask({ ...task, categories: selectedOptions });
+    // setTask({ ...task, categories: selectedOptions });
   };
 
   // Function to create a new category option
-  const handleCreateCategory = (inputValue) => {
-    const newCategory = { value: inputValue.toLowerCase(), label: inputValue };
-    setSelectedCategories([...selectedCategories, newCategory]);
-    // Update the task object with the newly created category
-    setTask({ ...task, categories: [...task.categories, newCategory] });
-    return newCategory;
+  // const handleCreateCategory = (inputValue) => {
+  //   const newCategory = { value: inputValue.toLowerCase(), label: inputValue };
+  //   setSelectedCategories([...selectedCategories, newCategory]);
+  //   // Update the task object with the newly created category
+  //   setCategory({ ...category, title: [...task.categories, newCategory] });
+  //   return newCategory;
+  // };
+
+  const handleCreateCategory = async (inputValue) => {
+    // Create a new category with a POST request to your API
+    const newCategory = {
+      title: inputValue,
+      color_hex: 'ffffff', // Default color
+    };
+
+    //   setSelectedCategories([...selectedCategories, newCategory]);
+  //   // Update the task object with the newly created category
+  //   setCategory({ ...category, title: [...task.categories, newCategory] });
+  //   return newCategory;
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newCategory),
+    };
+
+    const response = await fetch(`${api_url}/categories`, options);
+
+    if (response.ok) {
+      const data = await response.json();
+      const newCategoryOption = { value: data.category_id.toString(), label: data.title };
+  
+      // Update the selectedCategories state to include the new category option
+      setSelectedCategories((prevSelectedCategories) => [
+        ...prevSelectedCategories,
+        newCategoryOption,
+      ]);
+  
+      return newCategoryOption;
+    } else {
+      console.error('Failed to create category');
+      return null;
+    }
   };
+
+  // const createCategory = async(event) => {
+  //   event.preventDefault();
+
+  //   const newCategories ={
+  //     title: task.categories.map((category) => category.value),
+  //     color_hex: 'ffffff'
+  //   }
+
+  //   const options = {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(newCategories),
+  //   };
+
+  //   await fetch(`${api_url}/categories`, options);
+  // }
+
+  // const createCategoryOf = async(event) => {
+  //   event.preventDefault();
+
+  //   const newCategoriesOf ={
+  //     category_id: 0,
+  //     task_id: 0
+  //   }
+
+  //   const options = {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(newCategoriesOf),
+  //   };
+
+  //   await fetch(`${api_url}/categoryof`, options);
+  // }
+
+  // const createTask = async (event) => {
+  //   createCategory()
+  //   event.preventDefault();
+
+  //   // Create a new task object to send to the server
+  //   const newTask = {
+  //     title: task.title,
+  //     description: task.description,
+  //     due_date: task.due_date,
+  //     due_time: task.due_time,
+  //     priority_level: task.priority_level,
+  //     completed: task.completed,
+  //     user_id: task.user_id
+  //     // categories: task.categories.map((category) => category.value),
+  //   };
+
+    
+
+  //   const options = {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(newTask),
+  //   };
+
+  //   await fetch(`${api_url}/tasks`, options);
+  //   window.location.href = '/';
+
+  // };
 
   const createTask = async (event) => {
     event.preventDefault();
 
-    // Create a new task object to send to the server
+    // 1. Create the task in the tasks table
     const newTask = {
       title: task.title,
       description: task.description,
@@ -71,11 +187,11 @@ function CreateTask({ api_url, categories }) {
       due_time: task.due_time,
       priority_level: task.priority_level,
       completed: task.completed,
-      user_id: task.user_id
-      // categories: task.categories.map((category) => category.value),
+      user_id: task.user_id,
     };
 
-    const options = {
+    console.log(newTask)
+    const taskOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -83,17 +199,102 @@ function CreateTask({ api_url, categories }) {
       body: JSON.stringify(newTask),
     };
 
-    await fetch(`${api_url}/tasks`, options);
-    window.location.href = '/';
+    const taskResponse = await fetch(`${api_url}/tasks`, taskOptions);
 
+    if (!taskResponse.ok) {
+      console.error('Failed to create task');
+      return;
+    }
+
+    // createCategoryOf()
+
+    // 2. Create or retrieve categories and establish connections in categoryOf
+    for (const categoryOption of selectedCategories) {
+      let categoryId = categoryOption.value;
+
+      // Check if the category exists in the categories table based on its title
+      const existingCategory = categories.find(
+        (category) => category.title === categoryOption.label
+      );
+
+      if (!existingCategory) {
+        // Create a new category and get its category_id
+        const newCategoryOption = await handleCreateCategory(categoryOption.label);
+
+        if (newCategoryOption) {
+          categoryId = newCategoryOption.value;
+        } else {
+          console.error('Failed to create category');
+          continue;
+        }
+      }
+
+      // Establish a connection in the categoryOf table
+      const categoryOf = {
+        task_id: 25, // Use the newly created task_id
+        category_id: 21,
+      };
+
+      const categoryOfOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(categoryOf),
+      };
+
+      const categoryOfResponse = await fetch(`${api_url}/categoryOf`, categoryOfOptions);
+
+      if (!categoryOfResponse.ok) {
+        console.error('Failed to establish categoryOf connection');
+      }
+    }
+
+    // window.location.href = '/';
   };
 
-  const categoryOptions = [
-    { value: 'category1', label: 'Category 1' },
-    { value: 'category2', label: 'Category 2' },
-    { value: 'category3', label: 'Category 3' },
-    // Add more category options here
-  ];
+  // const createCategoryOf = async () => {
+  //   for (const categoryOption of selectedCategories) {
+  //     let categoryId = categoryOption.value;
+
+  //     // Check if the category exists in the categories table based on its title
+  //     const existingCategory = categories.find(
+  //       (category) => category.title === categoryOption.label
+  //     );
+
+  //     if (!existingCategory) {
+  //       // Create a new category and get its category_id
+  //       const newCategoryOption = await handleCreateCategory(categoryOption.label);
+
+  //       if (newCategoryOption) {
+  //         categoryId = newCategoryOption.value;
+  //       } else {
+  //         console.error('Failed to create category');
+  //         continue;
+  //       }
+  //     }
+
+  //     // Establish a connection in the categoryOf table
+  //     const categoryOf = {
+  //       task_id: taskResponse.category_id, // Use the newly created task_id
+  //       category_id: categoryId,
+  //     };
+
+  //     const categoryOfOptions = {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(categoryOf),
+  //     };
+
+  //     const categoryOfResponse = await fetch(`${api_url}/categoryOf`, categoryOfOptions);
+
+  //     if (!categoryOfResponse.ok) {
+  //       console.error('Failed to establish categoryOf connection');
+  //     }
+  //   }
+  // }
 
   return (
     <div className="CreateTask">
