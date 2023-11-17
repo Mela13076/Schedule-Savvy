@@ -19,6 +19,7 @@ const App = () => {
 
   const [tasks, setTasks] = useState([]);
   const [users, setUsers] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -26,6 +27,14 @@ const App = () => {
       const data = await response.json()
       setTasks(data)
     }
+
+    const fetchCategories = async () => {
+      const response = await fetch('http://localhost:3001/categories')
+      const data = await response.json()
+      setCategories(data)
+    }
+
+
 
     const fetchUsers = async () => {
       const response = await fetch('http://localhost:3001/users')
@@ -35,10 +44,11 @@ const App = () => {
 
     fetchUsers()
     fetchTasks()
+    fetchCategories()
     
   }, []);
   // console.log(tasks)
-  // console.log(users)
+  console.log(categories)
 
 
   // Sets up routes
@@ -49,15 +59,15 @@ const App = () => {
     },
     {
       path:"/new-task",
-      element: <CreateTask api_url={API_URL}/>
+      element: <CreateTask api_url={API_URL} categories={categories}/>
     },
     {
       path:"/edit/:id",
-      element: <EditTask data={tasks} />
+      element: <EditTask data={tasks} categories={categories}/>
     },
     {
       path:"/task/:id",
-      element: <ViewTask data={tasks} />
+      element: <ViewTask data={tasks} categories={categories}/>
     },
     {
       path:"/calendar",
