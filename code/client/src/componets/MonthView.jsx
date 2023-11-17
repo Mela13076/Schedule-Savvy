@@ -33,7 +33,7 @@ function MonthView(props) {
               })
               .map((task) => (
                 <div key={task.task_id}>
-                    <Link to={`/task/${task.id}`}>{task.title}</Link>
+                    <Link to={`/task/${task.task_id}`}>{task.title}</Link>
                 </div>
               ))}
           </div>

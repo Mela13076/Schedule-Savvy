@@ -67,7 +67,7 @@ const App = () => {
     },
     {
       path:"/task/:id",
-      element: <ViewTask data={tasks} categories={categories}/>
+      element: <ViewTask data={tasks} categories={categories} api_url={API_URL}/>
     },
     {
       path:"/calendar",
