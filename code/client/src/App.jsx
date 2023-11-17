@@ -37,8 +37,8 @@ const App = () => {
     fetchTasks()
     
   }, []);
-  console.log(tasks)
-  console.log(users)
+  // console.log(tasks)
+  // console.log(users)
 
 
   // Sets up routes
