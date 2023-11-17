@@ -94,7 +94,7 @@ function Home(props) {
       <div className="tasks-container">
         {filteredTasks && filteredTasks.length > 0 ? (
           filteredTasks.map((task, index) => (
-            <TaskCard id={task.task_id} key={index}/>
+            <TaskCard id={task.task_id} data={props.data} categories={props.categories} key={index}/>
           ))
         ) : (
           <Spinner animation="border" role="status">

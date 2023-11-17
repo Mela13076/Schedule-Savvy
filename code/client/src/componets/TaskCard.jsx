@@ -8,7 +8,7 @@ function TaskCard(props) {
     const [taskId, setTaskId] = useState(props.id);
     const [subtasks, setSubtasks] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [allCategories, setAllCategories] = useState([]);
+    const [allCategories, setAllCategories] = useState(props.categories);
     const [showForm, setShowForm] = useState(false);
     const [newCategory, setNewCategory] = useState({
         title: '',
@@ -35,16 +35,16 @@ function TaskCard(props) {
             let catOfs = await response.json()
             let catOfsIds = catOfs.map(catOf => catOf.category_id)
             
-            response = await fetch(`http://localhost:3001/categories/`)
-            let cats = await response.json()
-            setAllCategories(cats)
-            cats = cats.filter(category => catOfsIds.includes(category.category_id))
+            // response = await fetch(`http://localhost:3001/categories/`)
+            // let cats = await response.json()
+            // setAllCategories(cats)
+            let cats = allCategories.filter(category => catOfsIds.includes(category.category_id))
             setCategories(cats)
         }
       
         fetchTask()
-        fetchSubtasks()
         fetchCategories()
+        fetchSubtasks()
         
     }, []);
 

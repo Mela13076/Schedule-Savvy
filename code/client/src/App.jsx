@@ -48,14 +48,14 @@ const App = () => {
     
   }, []);
   // console.log(tasks)
-  console.log(categories)
+  // console.log(categories)
 
 
   // Sets up routes
   let element = useRoutes([
     {
       path: "/",
-      element:<Home data={tasks}/>
+      element:<Home data={tasks} categories={categories}/>
     },
     {
       path:"/new-task",
