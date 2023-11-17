@@ -91,7 +91,7 @@ function Home(props) {
             <Card.Body>
               <Card.Title>{task.title}</Card.Title>
               <Card.Text>{task.description}</Card.Text>
-              <Link to={`/task/${task.id}`}>
+              <Link to={`/task/${task.task_id}`}>
                 <Button variant="primary">Details</Button>
               </Link>
             </Card.Body>
