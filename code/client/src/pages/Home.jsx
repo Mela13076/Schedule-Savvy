@@ -3,10 +3,15 @@ import Spinner from "react-bootstrap/Spinner";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import "./Home.css";
+import TaskCard from "../componets/TaskCard";
 
 function Home(props) {
   const [tasks, setTasks] = useState([]);
   const [order, setOrder] = useState("task_id");
+  const [subtasks, setSubtasks] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [categoryOfs, setCategoryOfs] = useState([]);
   const [filters, setFilters] = useState({
     high: true,
     medium: true,
@@ -17,6 +22,7 @@ function Home(props) {
     if (props.data.length > 0) {
       setTasks(props.data);
     }
+
   }, [props.data]);
   
   const sortTasks = (property) => {
@@ -85,23 +91,17 @@ function Home(props) {
           onChange={handleCheckboxChange}
         />
       </label>
-      {filteredTasks && filteredTasks.length > 0 ? (
-        filteredTasks.map((task, index) => (
-          <Card key={index} className="mb-3">
-            <Card.Body>
-              <Card.Title>{task.title}</Card.Title>
-              <Card.Text>{task.description}</Card.Text>
-              <Link to={`/task/${task.id}`}>
-                <Button variant="primary">Details</Button>
-              </Link>
-            </Card.Body>
-          </Card>
-        ))
-      ) : (
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
-      )}
+      <div className="tasks-container">
+        {filteredTasks && filteredTasks.length > 0 ? (
+          filteredTasks.map((task, index) => (
+            <TaskCard id={task.task_id} key={index}/>
+          ))
+        ) : (
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        )}
+      </div>
     </div>
   );
 }
