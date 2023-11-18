@@ -12,7 +12,7 @@ function Home(props) {
     medium: true,
     low: true,
   });
-
+console.log(props)
   useEffect(() => { 
     if (props.data.length > 0) {
       setTasks(props.data);
