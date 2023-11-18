@@ -20,9 +20,11 @@ The purpose of the "Schedule Savvy" Task Management Website is to develop a user
 
 ## Tech Stack
 
-Frontend:
+Frontend: React, React Bootstrap, CSS
 
-Backend:
+Backend: Node.js, Express, PostgreSQL
+
+Deployment: Railway
 
 ## Features
 
@@ -58,9 +60,15 @@ Users can view already-created tasks as cards in a specified order or in a calen
 
 <image src='./assets/displayTask.gif' width='500' height='auto'>
 
-### Edit tasks & Delete tasks
+### Edit tasks
 
-User is able to edit any details on the task and delete the task. 
+User is able to edit any details on the task.
+
+[gif goes here]
+
+### Delete tasks
+
+User is able to delete the task.
 
 [gif goes here]
 
