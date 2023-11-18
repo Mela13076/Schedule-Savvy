@@ -27,6 +27,23 @@ const getCategoryOfById = async (req, res) => {
     }
 }
 
+const getCategoryOfsByTaskId = async (req, res) => {
+    try { 
+      const taskId = req.params.taskId
+      const selectQuery = `SELECT * FROM categoryof WHERE task_id = ${taskId}`
+      const results = await pool.query(selectQuery)
+      
+      // Gracefully handle non-existent task ID
+      if (results.rows)
+        res.status(200).json(results.rows)
+      else
+        res.status(404).json( { error: `categoryOf with task ID ${taskId} not found` } )
+
+    } catch (error) {
+      res.status(409).json( { error: error.message } )
+    }
+}
+
 const createCategoryOf = async (req, res) => {
     try {
       const { category_id, task_id } = req.body
@@ -57,6 +74,7 @@ const deleteCategoryOf = async (req, res) => {
 export default {
     getCategoryOfs,
     getCategoryOfById,
+    getCategoryOfsByTaskId,
     createCategoryOf,
     deleteCategoryOf
 }

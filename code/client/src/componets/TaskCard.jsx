@@ -1,5 +1,6 @@
 import { React, useEffect, useState } from 'react'
 import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
 import './TaskCard.css'
 import { add, set } from 'date-fns';
 
@@ -15,6 +16,7 @@ function TaskCard(props) {
         color_hex: ''
     });
     const [selectedCategoryId, setSelectedCategoryId] = useState(0);
+    const [isComplete, setIsComplete] = useState(false);
 
     useEffect(() => {
 
@@ -22,6 +24,7 @@ function TaskCard(props) {
             const response = await fetch(`http://localhost:3001/tasks/${taskId}`)
             const data = await response.json()
             setTask(data)
+            setIsComplete(data.completed)
         }
 
         const fetchSubtasks = async () => {
@@ -43,6 +46,7 @@ function TaskCard(props) {
         }
       
         fetchTask()
+        // console.log("iscomplete:", isComplete)
         fetchCategories()
         fetchSubtasks()
         
@@ -93,21 +97,41 @@ function TaskCard(props) {
         setShowForm(!showForm);
     };
 
-    // const handleNewCategory = (event) => {
-    //     setSelectedCategoryId(event.target.value)
-    //     console.log("new category:", event.target.value)
-    //     const selectedCategory = categories.find(category => category.id == selectedCategoryId);
-    //     setNewCategory(selectedCategory)
-    // }
+    const handleCompleteTask = async (event) => {
+        const updatedTask = { ...task, completed: !isComplete }
+        setTask(updatedTask)
+        await fetch(`http://localhost:3001/tasks/${taskId}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(updatedTask)
+        })
+        // console.log("patched task")
+        setIsComplete(updatedTask.completed)
+        // console.log("iscomplete:", updatedTask.completed)
+    }
 
     return (
       <div className="task-card">
         <Card className="m-3 task-card" style={{ width: '25rem' }}>
               <Card.Body>
-                <Card.Title>{task.title}</Card.Title>
+                <Card.Title className="task-card-title">
+                    {task.title}
+                    <span className='confetti-checkmark'>
+                        {isComplete ? <div>🎉</div> : null}
+                        <input
+                            type="checkbox"
+                            checked={isComplete}
+                            onChange={handleCompleteTask}
+                        />
+                    </span>
+                </Card.Title>
+                <Card.Text>{task.description}</Card.Text>
                 <hr />
 
                 <div className="task-categories-cont">
+                    <Card.Text>{task.priority_level}</Card.Text>
                     Categories: 
                     {
                         categories.map((category, index) => (
@@ -154,9 +178,7 @@ function TaskCard(props) {
                 </div>
 
                 <hr />
-
-                <Card.Text>{task.description}</Card.Text>
-                <Card.Text>{task.priority_level}</Card.Text>
+                <Card.Subtitle className="mb-2 text-muted">Subtasks</Card.Subtitle>
                 {
                     subtasks.map((subtask, index) => (
                         <Card.Text key={index}>{subtask.title}</Card.Text>

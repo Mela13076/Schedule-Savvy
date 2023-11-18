@@ -6,6 +6,7 @@ const router = express.Router()
 
 router.get('/', SubTaskController.getSubTasks)
 router.get('/:subTaskId', SubTaskController.getSubTaskById) 
+router.get('/task/:taskId', SubTaskController.getSubTasksByTaskId)
 router.post('/', SubTaskController.createSubTask)
 router.patch('/:id', SubTaskController.updateSubTask)
 router.delete('/:id', SubTaskController.deleteSubTask)

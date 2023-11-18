@@ -18,3 +18,20 @@
     border-radius: 5px;
     padding: 5px 10px;
 }
+
+.task-card-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.task-card-checkmark {
+    margin: 0;
+}
+
+.confetti-checkmark {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 40px;
+}
