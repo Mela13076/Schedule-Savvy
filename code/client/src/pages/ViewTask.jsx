@@ -2,7 +2,35 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Button, Modal } from "react-bootstrap";
 
-// Function to format a date string as MM-DD-YYYY
+
+
+function ViewTask({ api_url }) {
+  const { id } = useParams();
+  const [task, setTask] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  useEffect(() => {
+    const fetchTask = async () => {
+      const response = await fetch(`${api_url}/tasks/${id}`);
+      const data = await response.json();
+      setTask(data);
+    };
+
+    fetchTask();
+  }, [id]);
+
+  console.log(task)
+
+  if (!task) {
+    // Handle the case where the task details are still loading
+    return <div>Loading...</div>;
+  }
+
+  // Format date and time using the provided functions
+  const formattedDate = formatDate(task.due_date);
+  const formattedTime = formatTime(task.due_time);
+
+  // Function to format a date string as MM-DD-YYYY
 function formatDate(inputDate) {
   const date = new Date(inputDate);
   const year = date.getFullYear();
@@ -27,30 +55,6 @@ function formatTime(inputTime) {
 
   return `${hours}:${minutes} ${period}`;
 }
-
-function ViewTask({ api_url }) {
-  const { id } = useParams();
-  const [task, setTask] = useState(null);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-  useEffect(() => {
-    const fetchTask = async () => {
-      const response = await fetch(`${api_url}/tasks/${id}`);
-      const data = await response.json();
-      setTask(data);
-    };
-
-    fetchTask();
-  }, [id]);
-
-  if (!task) {
-    // Handle the case where the task details are still loading
-    return <div>Loading...</div>;
-  }
-
-  // Format date and time using the provided functions
-  const formattedDate = formatDate(task.due_date);
-  const formattedTime = formatTime(task.due_time);
 
   const deleteTask = async (taskId) => {
     try {
@@ -95,8 +99,10 @@ function ViewTask({ api_url }) {
       console.error("There was a problem with the delete operation:", error);
     }
 
+    window.location.href = '/'
     // Close the delete modal
-    setShowDeleteModal(false);
+    // setShowDeleteModal(false);
+
   };
 
   
@@ -112,7 +118,7 @@ function ViewTask({ api_url }) {
               <Card.Text>Date: {formattedDate}</Card.Text>
               <Card.Text>Time: {formattedTime}</Card.Text>
               <Card.Text>Priority: {task.priority_level}</Card.Text>
-              <Card.Text>Status: {task.completed}</Card.Text>
+              <Card.Text>Status: {task.completed ? "Completed" : "Incomplete"}</Card.Text>
               <Button as={Link} to={`/edit/${id}`} variant="primary">
                 Edit
               </Button>

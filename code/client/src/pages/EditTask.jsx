@@ -6,7 +6,7 @@ import CreatableSelect from "react-select/creatable";
 import "react-datepicker/dist/react-datepicker.css";
 
 
-function EditTask({data}) {
+function EditTask({api_url}) {
 
   const {id} = useParams();
   const [validated, setValidated] = useState(false);
@@ -24,6 +24,21 @@ function EditTask({data}) {
     completed: false,
     user_id: 1,
   });
+
+  useEffect(() => {
+    const fetchTask = async () => {
+      const response = await fetch(`${api_url}/tasks/${id}`);
+      const data = await response.json();
+      setTask(data);
+    };
+
+    fetchTask();
+  }, [id]);
+
+  if (!task) {
+    // Handle the case where the task details are still loading
+    return <div>Loading...</div>;
+  }
 
   const handleChange = (event) => {
     const {name, value} = event.target;
@@ -48,19 +63,16 @@ const handleTimeChange = (e) => {
   setTask({ ...task, due_time: time });
 };
 
-const handleCategoryChange = (selectedOptions) => {
-  setSelectedCategories(selectedOptions);
-  // Update the task object with the selected categories
-  setTask({ ...task, categories: selectedOptions });
-};
 
-const handleCreateCategory = (inputValue) => {
-  const newCategory = { value: inputValue.toLowerCase(), label: inputValue };
-  setSelectedCategories([...selectedCategories, newCategory]);
-  // Update the task object with the newly created category
-  setTask({ ...task, categories: [...task.categories, newCategory] });
-  return newCategory;
-};
+const formattedDate = formatDate(task.due_date);
+
+function formatDate(inputDate) {
+  const date = new Date(inputDate);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Add 1 because months are zero-indexed
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${month}/${day}/${year}`;
+}
 
 
 // const updateTask = async (event) => {
@@ -97,7 +109,7 @@ const handleSubmit = async (event) => {
       body: JSON.stringify(task),
     };
 
-    const response = await fetch(`/tasks/${id}`, options);
+    const response = await fetch(`${api_url}/tasks/${id}`, options);
 
     if (response.ok) {
       // Task updated successfully, you can handle the success case here
@@ -111,14 +123,10 @@ const handleSubmit = async (event) => {
     // Handle errors, e.g., network errors, server errors, etc.
     console.error("There was a problem with the update operation:", error);
   }
+
+  window.location.href = '/task/' + id;
 };
 
-const categoryOptions = [
-  { value: 'category1', label: 'Category 1' },
-  { value: 'category2', label: 'Category 2' },
-  { value: 'category3', label: 'Category 3' },
-  // Add more category options here
-];
 
 
 const deleteTask = async (event) => {
@@ -150,16 +158,6 @@ const deleteTask = async (event) => {
               <Form.Control.Feedback>Good Task!</Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group as={Col} md="6" controlId="validationCustom02">
-              <Form.Label>Categories</Form.Label>
-              <CreatableSelect
-                isMulti
-                options={categoryOptions}
-                onChange={handleCategoryChange}
-                onCreateOption={handleCreateCategory} // Enable creating new options
-                value={selectedCategories}
-              />
-            </Form.Group>
           </Row>
 
           <Row className="mb-3">
@@ -180,6 +178,7 @@ const deleteTask = async (event) => {
               <DatePicker
                 selected={selectedDate}
                 onChange={handleDateChange}
+                value={formattedDate}
                 dateFormat="MM/dd/yyyy" // Customize date format if needed
                 className="date-picker"
               />
@@ -189,7 +188,7 @@ const deleteTask = async (event) => {
               <Form.Label>Due Time</Form.Label>
               <Form.Control
                 type="time"
-                value={selectedTime}
+                value={task.due_time}
                 onChange={handleTimeChange}
               />
             </Form.Group>

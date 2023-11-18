@@ -63,7 +63,7 @@ const App = () => {
     },
     {
       path:"/edit/:id",
-      element: <EditTask data={tasks} categories={categories}/>
+      element: <EditTask data={tasks} categories={categories} api_url={API_URL}/>
     },
     {
       path:"/task/:id",
