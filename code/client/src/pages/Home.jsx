@@ -177,15 +177,18 @@ function Home(props) {
   });
 
   const filteredAndSearchedTasks = filteredTasks.filter((task) => {
-    if (searchTerm === "") {
-      return true;
-    }
-    const searchLower = searchTerm.toLowerCase();
-    return (
-      task.title.toLowerCase().includes(searchLower) ||
-      task.description.toLowerCase().includes(searchLower)
-    );
-  });
+  if (searchTerm === "") {
+    return true;
+  }
+  const searchLower = searchTerm.toLowerCase(); // Convert search term to lowercase
+  const titleLower = task.title.toLowerCase(); // Convert title to lowercase
+  const descriptionLower = task.description.toLowerCase(); // Convert description to lowercase
+  return (
+    titleLower.includes(searchLower) || // Compare lowercase values
+    descriptionLower.includes(searchLower)
+  );
+});
+
 
   return (
     <div className="Home">
