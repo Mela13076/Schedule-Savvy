@@ -185,7 +185,7 @@ function CreateTask({ api_url, categories }) {
     const task_id = await addTask()
     await addCategoryOf(task_id)
 
-    // window.location.href = '/';
+    window.location.href = '/';
   };
 
 
