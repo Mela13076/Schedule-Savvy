@@ -173,9 +173,9 @@ const seedUsersTable = async () => {
 
 const updateTables = async () => {
     const updateQuery = `
-      DELETE from tasks
-      where title='Testing if Categories Work';
-      `
+      ALTER TABLE subtasks
+      DROP COLUMN due_time;
+    `
     
     try {
       const res = await pool.query(updateQuery)
@@ -186,7 +186,7 @@ const updateTables = async () => {
     }
 }
 
-updateTables()
+// updateTables()
 
 // seedTasksTable()
 // createTasksTable()

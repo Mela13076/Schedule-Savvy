@@ -45,12 +45,12 @@ const getSubTasksByTaskId = async (req, res) => {
 
 const createSubTask = async (req, res) => {
     try {
-      const { title, due_date, due_time, completed, task_id } = req.body
+      const { title, completed, task_id } = req.body
       const results = await pool.query(`
-        INSERT INTO subtasks (title, due_date, due_time, completed, task_id)
-        VALUES($1, $2, $3, $4, $5)
+        INSERT INTO subtasks (title, completed, task_id)
+        VALUES($1, $2, $3)
         RETURNING *`,
-        [title, due_date, due_time, completed, task_id]
+        [title, completed, task_id]
       )
       res.status(201).json(results.rows[0])
     } catch (error) {
@@ -61,10 +61,10 @@ const createSubTask = async (req, res) => {
 const updateSubTask = async (req, res) => {
     try {
       const id = parseInt(req.params.id)
-      const { title, due_date, due_time, completed, task_id } = req.body 
+      const { title, completed, task_id } = req.body 
       const results = await pool.query(`
-        UPDATE subtasks SET title = $1, due_date = $2, due_time = $3, completed = $4, task_id = $5 WHERE subtask_id = $6`,
-        [title, due_date, due_time, completed, task_id, id]
+        UPDATE subtasks SET title = $1, completed = $2, task_id = $3 WHERE subtask_id = $4`,
+        [title, completed, task_id, id]
       )
       res.status(200).json(results.rows[0])
     } catch (error) {
