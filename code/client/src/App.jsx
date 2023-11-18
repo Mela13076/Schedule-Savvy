@@ -23,13 +23,13 @@ const App = () => {
 
   useEffect(() => {
     const fetchTasks = async () => {
-      const response = await fetch('http://localhost:3001/tasks')
+      const response = await fetch(`${API_URL}/tasks`)
       const data = await response.json()
       setTasks(data)
     }
 
     const fetchCategories = async () => {
-      const response = await fetch('http://localhost:3001/categories')
+      const response = await fetch(`${API_URL}/categories`)
       const data = await response.json()
       setCategories(data)
     }
@@ -37,7 +37,7 @@ const App = () => {
 
 
     const fetchUsers = async () => {
-      const response = await fetch('http://localhost:3001/users')
+      const response = await fetch(`${API_URL}/users`)
       const data = await response.json()
       setUsers(data)
     } 
@@ -55,7 +55,7 @@ const App = () => {
   let element = useRoutes([
     {
       path: "/",
-      element:<Home data={tasks} categories={categories}/>
+      element:<Home data={tasks} categories={categories} api_url={API_URL}/>
     },
     {
       path:"/new-task",
