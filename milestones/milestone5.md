@@ -71,7 +71,9 @@ Complete the checklist below detailing each baseline, custom, and stretch featur
 
 ## Final Demo GIF
 
-🔗 [Here's a GIF walkthrough of the final project](👉🏾👉🏾👉🏾 your link here)
+🔗 [Here's a GIF walkthrough of the final project]
+
+<image src='../assets/final.gif' width='500' height='auto'>
 
 ## Reflection
 

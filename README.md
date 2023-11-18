@@ -87,16 +87,31 @@ Users can choose task completion status (“in progress”, “completed”, “
 There will be search functionality to look for and find specific tasks. 
 
 
-[gif goes here]
+<image src='./assets/search.gif' width='500' height='auto'>
+
+### ✅ Calendar View Of All Task
+
+User will be able to see all task that have due dates in a month or weekly calendar view. 
+
+
+<image src='./assets/calendar.gif' width='500' height='auto'>
 
 
 ### ✅ Responsiveness 
 
 features are responsiveness to both desktop and mobile screens
 
-[gif goes here]
+<image src='./assets/responsiveness.gif' width='500' height='auto'>
 
 
 ## Installation Instructions
 
-[instructions go here]
+ Go to Github and fork repository: https://github.com/Mela13076/Schedule-Savvy
+
+ In the client folder npm install to download all dependencies needed. 
+
+ To run the client side: npm run dev
+
+ In the server folder npm install to download all dependencies needed.
+
+ To run the server side: npm start
