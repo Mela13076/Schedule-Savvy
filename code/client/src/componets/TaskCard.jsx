@@ -24,36 +24,33 @@ function TaskCard(props) {
         completed: false
     });
     const [showFormSubtask, setShowFormSubtask] = useState(false);
+    const [api_url, setApiUrl] = useState(props.api_url);
 
     useEffect(() => {
 
         const fetchTask = async () => {
-            const response = await fetch(`http://localhost:3001/tasks/${taskId}`)
+            const response = await fetch(`${api_url}/tasks/${taskId}`)
             const data = await response.json()
             setTask(data)
             setIsComplete(data.completed)
         }
 
         const fetchSubtasks = async () => {
-            const response = await fetch(`http://localhost:3001/subtasks/task/${taskId}`)
+            const response = await fetch(`${api_url}/subtasks/task/${taskId}`)
             const data = await response.json()
             setSubtasks(data)
         }
       
         const fetchCategories = async () => {
-            let response = await fetch(`http://localhost:3001/categoryof/task/${taskId}`)
+            let response = await fetch(`${api_url}/categoryof/task/${taskId}`)
             let catOfs = await response.json()
             let catOfsIds = catOfs.map(catOf => catOf.category_id)
             
-            // response = await fetch(`http://localhost:3001/categories/`)
-            // let cats = await response.json()
-            // setAllCategories(cats)
             let cats = allCategories.filter(category => catOfsIds.includes(category.category_id))
             setCategories(cats)
         }
       
         fetchTask()
-        // console.log("iscomplete:", isComplete)
         fetchCategories()
         fetchSubtasks()
         
@@ -63,7 +60,7 @@ function TaskCard(props) {
         event.preventDefault()
 
         const addCat = async () => {
-            const response = await fetch(`http://localhost:3001/categories`, {
+            const response = await fetch(`${api_url}/categories`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json'
@@ -79,7 +76,7 @@ function TaskCard(props) {
         }
 
         const addCatOf = async (category_id) => {
-            const response2 = await fetch(`http://localhost:3001/categoryof`, {
+            const response2 = await fetch(`${api_url}/categoryof`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json'
@@ -91,7 +88,6 @@ function TaskCard(props) {
             })
 
             const data = await response2.json()
-            // console.log("new data:", data)
             return data
         }
 
@@ -107,16 +103,14 @@ function TaskCard(props) {
     const handleCompleteTask = async (event) => {
         const updatedTask = { ...task, completed: !isComplete }
         setTask(updatedTask)
-        await fetch(`http://localhost:3001/tasks/${taskId}`, {
+        await fetch(`${api_url}/tasks/${taskId}`, {
             method: 'PATCH',
             headers: {
                 'Content-type': 'application/json'
             },
             body: JSON.stringify(updatedTask)
         })
-        // console.log("patched task")
         setIsComplete(updatedTask.completed)
-        // console.log("iscomplete:", updatedTask.completed)
     }
 
     function formatDate(inputDate) {
@@ -149,7 +143,7 @@ function TaskCard(props) {
     const addSubtask = async (event) => {
         event.preventDefault()
 
-        const response = await fetch(`http://localhost:3001/subtasks`, {
+        const response = await fetch(`${api_url}/subtasks`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'
@@ -198,17 +192,9 @@ function TaskCard(props) {
                             </div>
                         ))
                     }
-                    {/* <div className="category_cont" onClick={() => console.log("Add category")}> */}
                     <button onClick={toggleForm}>+</button>
                     {showForm && 
                         <div className="popup">
-                            {/* <select onChange={handleNewCategory}>
-                                {allCategories.map((category, index) => (
-                                    <option value={category.category_id} key={index}>
-                                        {category.title}
-                                    </option>
-                                ))}
-                            </select> */}
                             <form onSubmit={addCategory}>
                                 Add new category:
                                 <label>
@@ -235,7 +221,7 @@ function TaskCard(props) {
                 <Card.Subtitle className="mb-2 text-muted">Subtasks</Card.Subtitle>
                 {
                     subtasks.map((subtask, index) => (
-                        <SubTask key={index} subtask={subtask}/>
+                        <SubTask key={index} subtask={subtask} api_url={api_url}/>
                     ))
                 }
                 <button onClick={() => setShowFormSubtask(!showFormSubtask)}>Add Subtask</button>
