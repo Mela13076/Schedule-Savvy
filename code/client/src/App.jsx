@@ -9,6 +9,7 @@ import Calendar from './pages/Calendar';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Nav from './componets/nav';
+import NotFound from './pages/NotFound';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -80,6 +81,10 @@ const App = () => {
     {
       path:"/sign-up",
       element: <SignUp />
+    },
+    {
+      path: "*",
+      element: <NotFound />
     }
   ]);
 

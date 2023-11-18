@@ -4,7 +4,7 @@ CodePath WEB103 Final Project
 
 Designed and developed by: Amelia Trevino & Abenezer Amanuel
 
-🔗 Link to deployed app:
+🔗 Link to deployed app: https://client-production-564a.up.railway.app/sign-in
 
 ## About
 
