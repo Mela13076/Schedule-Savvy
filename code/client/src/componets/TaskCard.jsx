@@ -3,6 +3,8 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import './TaskCard.css'
 import { add, set } from 'date-fns';
+import { Link } from 'react-router-dom';
+import SubTask from './SubTask';
 
 function TaskCard(props) {
     const [task, setTask] = useState({});
@@ -17,6 +19,11 @@ function TaskCard(props) {
     });
     const [selectedCategoryId, setSelectedCategoryId] = useState(0);
     const [isComplete, setIsComplete] = useState(false);
+    const [newSubtask, setNewSubtask] = useState({
+        title: '',
+        completed: false
+    });
+    const [showFormSubtask, setShowFormSubtask] = useState(false);
 
     useEffect(() => {
 
@@ -112,12 +119,60 @@ function TaskCard(props) {
         // console.log("iscomplete:", updatedTask.completed)
     }
 
+    function formatDate(inputDate) {
+        const date = new Date(inputDate);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Add 1 because months are zero-indexed
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${month}-${day}-${year}`;
+      }
+      
+    // Function to format a time string as AM/PM
+    function formatTime(inputTime) {
+        if (!inputTime)
+            return '';
+        const time = inputTime.split(':');
+        let hours = parseInt(time[0]);
+        const minutes = time[1];
+        let period = 'AM';
+      
+        if (hours >= 12) {
+          if (hours > 12) {
+            hours -= 12;
+          }
+          period = 'PM';
+        }
+      
+        return `${hours}:${minutes} ${period}`;
+    }
+
+    const addSubtask = async (event) => {
+        event.preventDefault()
+
+        const response = await fetch(`http://localhost:3001/subtasks`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: newSubtask.title,
+                completed: newSubtask.completed,
+                task_id: taskId
+            })
+        })
+        let data = await response.json()
+        setSubtasks([...subtasks, data])
+        setShowFormSubtask(false);
+    }
+
     return (
       <div className="task-card">
         <Card className="m-3 task-card" style={{ width: '25rem' }}>
               <Card.Body>
                 <Card.Title className="task-card-title">
-                    {task.title}
+                    <Link to={`/task/${task.task_id}`}>
+                        {task.title}
+                    </Link>
                     <span className='confetti-checkmark'>
                         {isComplete ? <div>🎉</div> : null}
                         <input
@@ -127,12 +182,13 @@ function TaskCard(props) {
                         />
                     </span>
                 </Card.Title>
-                <Card.Text>{task.description}</Card.Text>
+                <Card.Subtitle className="mb-2 text-muted">Due: {formatDate(task.due_date)} at {formatTime(task.due_time)}</Card.Subtitle>
+                <Card.Subtitle className="mb-2 text-muted">Details: {task.description}</Card.Subtitle>
                 <hr />
 
-                <div className="task-categories-cont">
-                    <Card.Text>{task.priority_level}</Card.Text>
-                    Categories: 
+                <Card.Subtitle className="mb-2 text-muted">Priority: {task.priority_level} </Card.Subtitle>
+                <div className="task-categories-cont">      
+                    <Card.Subtitle className="mb-2 text-muted">Categories:</Card.Subtitle>
                     {
                         categories.map((category, index) => (
                             <div key={index} 
@@ -154,24 +210,22 @@ function TaskCard(props) {
                                 ))}
                             </select> */}
                             <form onSubmit={addCategory}>
-                            Add new category:
-                            <label>
-                                Title:
-                                <input
-                                type="text"
-                                // value={title}
-                                onChange={(e) => setNewCategory({...newCategory, title: e.target.value})}
-                                />
-                            </label>
-                            <label>
-                                Color Hex:
-                                <input
-                                type="text"
-                                // value={colorHex}
-                                onChange={(e) => setNewCategory({...newCategory, color_hex: e.target.value})}
-                                />
-                            </label>
-                            <button type="submit">Add</button>
+                                Add new category:
+                                <label>
+                                    Title:
+                                    <input
+                                    type="text"
+                                    onChange={(e) => setNewCategory({...newCategory, title: e.target.value})}
+                                    />
+                                </label>
+                                <label>
+                                    Color Hex:
+                                    <input
+                                    type="text"
+                                    onChange={(e) => setNewCategory({...newCategory, color_hex: e.target.value})}
+                                    />
+                                </label>
+                                <button type="submit">Add</button>
                             </form>
                         </div>
                     }
@@ -181,8 +235,23 @@ function TaskCard(props) {
                 <Card.Subtitle className="mb-2 text-muted">Subtasks</Card.Subtitle>
                 {
                     subtasks.map((subtask, index) => (
-                        <Card.Text key={index}>{subtask.title}</Card.Text>
+                        <SubTask key={index} subtask={subtask}/>
                     ))
+                }
+                <button onClick={() => setShowFormSubtask(!showFormSubtask)}>Add Subtask</button>
+                {
+                    showFormSubtask && 
+                    <form onSubmit={addSubtask}>
+                        Add new subtask:
+                        <label>
+                            Title:
+                            <input
+                            type="text"
+                            onChange={(e) => setNewSubtask({...newSubtask, title: e.target.value})}
+                            />
+                        </label>
+                        <button type="submit">Add</button>
+                    </form>
                 }
               </Card.Body>
             </Card>
